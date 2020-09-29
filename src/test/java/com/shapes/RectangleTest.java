@@ -19,8 +19,8 @@ public class RectangleTest {
 
   @Test
   void shouldRepresentTheRectangle() {
-    final Rectangle rectangle = new Rectangle(3.0, 2.0);
-    final String expected = "length: 3.0\nbreadth: 2.0\narea: 6.0\nperimeter: 10.0";
+    final Rectangle rectangle = new Rectangle(2.0, 3.0);
+    final String expected = "length: 3.000000\nwidth: 2.000000\narea: 6.000000\nperimeter: 10.000000";
     rectangle.represent((txt) -> assertEquals(expected, txt));
   }
 }

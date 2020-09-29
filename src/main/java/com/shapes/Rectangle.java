@@ -9,10 +9,11 @@ public class Rectangle {
     this.sideB = sideB;
   }
 
-  public void represent(Printer <String> printer) {
+  public void represent(Printer <Object> printer) {
     final double length = Math.max(this.sideA, this.sideB);
-    final double breadth = Math.min(this.sideA, this.sideB);
-    printer.print("length: " + length + "\nbreadth: " + breadth + "\narea: " + this.area() + "\nperimeter: " + this.perimeter());
+    final double width = Math.min(this.sideA, this.sideB);
+    final String representation = String.format("length: %f\nwidth: %f\narea: %f\nperimeter: %f", length, width, this.area(), this.perimeter());
+    printer.print(representation);
   }
 
   public double area() {
