@@ -20,7 +20,17 @@ public class RectangleTest {
   @Test
   void shouldRepresentTheRectangle() {
     final Rectangle rectangle = new Rectangle(2.0, 3.0);
-    final String expected = "length: 3.000000\nwidth: 2.000000\narea: 6.000000\nperimeter: 10.000000";
-    rectangle.represent((txt) -> assertEquals(expected, txt));
+    rectangle.represent((view) -> {
+      assertEquals(3.0, view.length);
+      assertEquals(2.0, view.width);
+      assertEquals(6.0, view.area);
+      assertEquals(10.0, view.perimeter);
+    });
+//    rectangle.represent(view -> {
+//      System.out.println("length : " + view.length);
+//      System.out.println("width : " + view.width);
+//      System.out.println("area : " + view.area);
+//      System.out.println("perimeter : " + view.perimeter);
+//    });
   }
 }
