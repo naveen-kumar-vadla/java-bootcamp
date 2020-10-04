@@ -14,8 +14,9 @@ public class ParkingLot {
         this.size = size;
         this.parkingLot = new Object[size];
 
-        this.eventListeners.put(ParkingLotEvent.FULL, new ArrayList<>());
-        this.eventListeners.put(ParkingLotEvent.ALMOST_FULL, new ArrayList<>());
+        for (ParkingLotEvent event : ParkingLotEvent.values()) {
+            this.eventListeners.put(event, new ArrayList<>());
+        }
     }
 
     public boolean park(Object car) {
