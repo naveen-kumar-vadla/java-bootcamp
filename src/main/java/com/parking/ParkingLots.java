@@ -2,13 +2,11 @@ package com.parking;
 
 public class ParkingLots {
   private final int numberOfLots;
-  private final int lotSize;
-  private ParkingLot[] parkingLots;
+  private final ParkingLot[] parkingLots;
   private int currentLotId = 0;
 
   public ParkingLots(int numberOfLots, int lotSize) {
     this.numberOfLots = numberOfLots;
-    this.lotSize = lotSize;
     this.parkingLots = this.createParkingLots(numberOfLots, lotSize);
   }
 
