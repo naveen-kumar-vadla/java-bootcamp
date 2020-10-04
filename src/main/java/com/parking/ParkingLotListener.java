@@ -1,5 +1,5 @@
 package com.parking;
 
 public interface ParkingLotListener {
-  void listen(ParkingLotStatus parkingLotStatus);
+    void publishEvent(ParkingEventInfo parkingParkingEventInfo);
 }

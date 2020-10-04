@@ -41,8 +41,10 @@ public class ParkingLotTest {
         parkingLot.park(car);
         parkingLot.park(car);
 
-        verify(parkingLotListener1).listen(ParkingLotStatus.FULL);
-        verify(parkingLotListener2).listen(ParkingLotStatus.FULL);
+        final ParkingEventInfo expectedParkingEventInfo = new ParkingEventInfo(2, 0, ParkingLotEvent.FULL);
+
+        verify(parkingLotListener1).publishEvent(expectedParkingEventInfo);
+        verify(parkingLotListener2).publishEvent(expectedParkingEventInfo);
     }
 
     @Test
@@ -64,7 +66,9 @@ public class ParkingLotTest {
         parkingLot.park(car3);
         parkingLot.park(car4);
 
-        verify(parkingLotListener1).listen(ParkingLotStatus.ALMOST_FULL);
-        verify(parkingLotListener2).listen(ParkingLotStatus.ALMOST_FULL);
+        final ParkingEventInfo expectedParkingEventInfo = new ParkingEventInfo(5, 1, ParkingLotEvent.ALMOST_FULL);
+
+        verify(parkingLotListener1).publishEvent(expectedParkingEventInfo);
+        verify(parkingLotListener2).publishEvent(expectedParkingEventInfo);
     }
 }

@@ -21,7 +21,7 @@ public class ParkingLots {
     return parkingLots;
   }
 
-  private void incCurrentLotId(ParkingLotStatus status) {
+  private void incCurrentLotId(ParkingEventInfo status) {
     this.currentLotId++;
   }
 

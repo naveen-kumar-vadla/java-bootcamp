@@ -5,17 +5,18 @@ import java.util.HashMap;
 import java.util.List;
 
 public class ParkingLot {
-    private final int size;
-    private final Object[] parkingLot;
     private int currentSlotNumber = 0;
-    private final HashMap<ParkingLotEvent, List<ParkingLotListener>> eventListeners = new HashMap<>();
+    private final HashMap<ParkingLotEvent, List<ParkingLotListener>> allListeners = new HashMap<>();
 
-    public ParkingLot(int size) {
-        this.size = size;
-        this.parkingLot = new Object[size];
+    private final int capacity;
+    private final Object[] parkingLot;
+
+    public ParkingLot(int capacity) {
+        this.capacity = capacity;
+        this.parkingLot = new Object[capacity];
 
         for (ParkingLotEvent event : ParkingLotEvent.values()) {
-            this.eventListeners.put(event, new ArrayList<>());
+            this.allListeners.put(event, new ArrayList<>());
         }
     }
 
@@ -27,39 +28,40 @@ public class ParkingLot {
         this.parkingLot[this.currentSlotNumber] = car;
         this.currentSlotNumber++;
 
-        this.notifyObservers();
+        this.checkEventsAndPublish();
 
         return true;
     }
 
     private boolean isFull() {
-        return this.currentSlotNumber >= this.size;
+        return this.currentSlotNumber >= this.capacity;
     }
 
     private boolean isAlmostFull() {
-        return ((this.currentSlotNumber / (double) this.size) * 100) == 80;
+        return ((this.currentSlotNumber / (double) this.capacity) * 100) == 80;
     }
 
-    private void notifyObservers() {
+    private void checkEventsAndPublish() {
         if (this.isFull()) {
-            final List<ParkingLotListener> fullEventListeners = this.eventListeners.get(ParkingLotEvent.FULL);
-
-            for (final ParkingLotListener listener : fullEventListeners) {
-                listener.listen(ParkingLotStatus.FULL);
-            }
-
+            publishEvent(ParkingLotEvent.FULL);
         }
 
         if (this.isAlmostFull()) {
-            final List<ParkingLotListener> almostFullEventListeners = this.eventListeners.get(ParkingLotEvent.ALMOST_FULL);
+            publishEvent(ParkingLotEvent.ALMOST_FULL);
+        }
+    }
 
-            for (final ParkingLotListener listener : almostFullEventListeners) {
-                listener.listen(ParkingLotStatus.ALMOST_FULL);
-            }
+    private void publishEvent(ParkingLotEvent parkingLotEvent) {
+        final List<ParkingLotListener> eventListeners = this.allListeners.get(parkingLotEvent);
+        final int slotsLeft = this.capacity - this.currentSlotNumber;
+        final ParkingEventInfo parkingEventInfo = new ParkingEventInfo(this.capacity, slotsLeft, parkingLotEvent);
+
+        for (final ParkingLotListener eventListener : eventListeners) {
+            eventListener.publishEvent(parkingEventInfo);
         }
     }
 
     public void addEventListener(ParkingLotEvent parkingLotEvent, ParkingLotListener listener) {
-        this.eventListeners.get(parkingLotEvent).add(listener);
+        this.allListeners.get(parkingLotEvent).add(listener);
     }
 }
