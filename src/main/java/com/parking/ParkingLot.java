@@ -42,13 +42,18 @@ public class ParkingLot {
 
     private void notifyObservers() {
         if (this.isFull()) {
-            for (final ParkingLotListener listener : this.eventListeners.get(ParkingLotEvent.FULL)) {
+            final List<ParkingLotListener> fullEventListeners = this.eventListeners.get(ParkingLotEvent.FULL);
+
+            for (final ParkingLotListener listener : fullEventListeners) {
                 listener.listen(ParkingLotStatus.FULL);
             }
 
         }
+
         if (this.isAlmostFull()) {
-            for (final ParkingLotListener listener : this.eventListeners.get(ParkingLotEvent.ALMOST_FULL)) {
+            final List<ParkingLotListener> almostFullEventListeners = this.eventListeners.get(ParkingLotEvent.ALMOST_FULL);
+
+            for (final ParkingLotListener listener : almostFullEventListeners) {
                 listener.listen(ParkingLotStatus.ALMOST_FULL);
             }
         }

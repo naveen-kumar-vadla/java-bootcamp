@@ -22,6 +22,7 @@ public class parkingLotsTest {
     final Object car2 = new Object();
 
     parkingLots.park(car1);
+
     assertFalse(parkingLots.park(car2));
   }
 
@@ -32,7 +33,7 @@ public class parkingLotsTest {
     final Object car2 = new Object();
 
     parkingLots.park(car1);
+
     assertTrue(parkingLots.park(car2));
   }
-
 }
