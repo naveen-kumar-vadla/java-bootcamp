@@ -15,7 +15,7 @@ public class ParkingLots {
 
     for(int i = 0; i < numberOfLots; i++) {
       parkingLots[i] = new ParkingLot(lotSize);
-      parkingLots[i].addLotFullNotifier(this::incCurrentLotId);
+      parkingLots[i].addEventListener(ParkingLotEvent.FULL, this::incCurrentLotId);
     }
 
     return parkingLots;
