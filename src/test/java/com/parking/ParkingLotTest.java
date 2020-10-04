@@ -2,8 +2,7 @@ package com.parking;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class ParkingLotTest {
@@ -13,7 +12,7 @@ public class ParkingLotTest {
         final ParkingLot parkingLot = new ParkingLot(2);
         final Object car = new Object();
 
-        assertTrue(parkingLot.park(car));
+        assertEquals(ParkingStatus.DONE, parkingLot.park(car));
     }
 
     @Test
@@ -24,7 +23,7 @@ public class ParkingLotTest {
 
         parkingLot.park(car1);
 
-        assertFalse(parkingLot.park(car2));
+        assertEquals(ParkingStatus.PARKING_FULL, parkingLot.park(car2));
     }
 
     @Test

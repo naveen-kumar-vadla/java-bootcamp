@@ -20,9 +20,9 @@ public class ParkingLot {
         }
     }
 
-    public boolean park(Object car) {
+    public ParkingStatus park(Object car) {
         if (this.isFull()) {
-            return false;
+            return ParkingStatus.PARKING_FULL;
         }
 
         this.parkingLot[this.currentSlotNumber] = car;
@@ -30,7 +30,7 @@ public class ParkingLot {
 
         this.checkEventsAndPublish();
 
-        return true;
+        return ParkingStatus.DONE;
     }
 
     private boolean isFull() {

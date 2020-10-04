@@ -30,6 +30,6 @@ public class ParkingLots {
       return false;
     }
 
-    return this.parkingLots[this.currentLotId].park(car);
+    return this.parkingLots[this.currentLotId].park(car) == ParkingStatus.DONE;
   }
 }
