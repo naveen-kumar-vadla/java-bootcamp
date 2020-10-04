@@ -26,16 +26,16 @@ public class ParkingEventInfo {
     }
 
     @Override
-    public boolean equals(Object object) {
-        if (this == object) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
             return true;
         }
 
-        if (!(object instanceof ParkingEventInfo)) {
+        if (!(obj instanceof ParkingEventInfo)) {
             return false;
         }
 
-        ParkingEventInfo that = (ParkingEventInfo) object;
+        ParkingEventInfo that = (ParkingEventInfo) obj;
         return this.lotCapacity == that.lotCapacity &&
                 this.slotsLeft == that.slotsLeft &&
                 this.parkingLotEvent == that.parkingLotEvent;

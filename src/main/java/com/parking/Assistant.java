@@ -17,14 +17,14 @@ public class Assistant {
     public boolean equals(Object obj) {
         if (this == obj) return true;
 
-        if (obj == null || getClass() != obj.getClass()) return false;
+        if (!(obj instanceof Assistant)) return false;
 
         Assistant other = (Assistant) obj;
-        return parkingLots.equals(other.parkingLots);
+        return this.parkingLots.equals(other.parkingLots);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(parkingLots);
+        return Objects.hash(this.parkingLots);
     }
 }
