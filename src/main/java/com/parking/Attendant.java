@@ -11,7 +11,7 @@ public class Attendant {
     return this.parkingLots.park(car);
   }
 
-  public Attendant createAssistant() {
-    return new Attendant(this.parkingLots);
+  public Assistant createAssistant() {
+    return new Assistant(this.parkingLots);
   }
 }
