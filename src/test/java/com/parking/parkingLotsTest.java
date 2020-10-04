@@ -9,7 +9,10 @@ public class parkingLotsTest {
 
     @Test
     void shouldParkTheCarWhenSlotAvailable() {
-        final ParkingLots parkingLots = new ParkingLots(1, 2);
+        final ParkingLot[] lots = new ParkingLot[1];
+        lots[0] = new ParkingLot(1);
+
+        final ParkingLots parkingLots = ParkingLots.createParkingLots(lots);
         final Object car = new Object();
 
         assertEquals(ParkingStatus.DONE, parkingLots.park(car));
@@ -17,7 +20,10 @@ public class parkingLotsTest {
 
     @Test
     void shouldNotParkTheCarWhenNoEmptySlots() {
-        final ParkingLots parkingLots = new ParkingLots(1, 1);
+        final ParkingLot[] lots = new ParkingLot[1];
+        lots[0] = new ParkingLot(1);
+
+        final ParkingLots parkingLots = ParkingLots.createParkingLots(lots);
         final Object car1 = new Object();
         final Object car2 = new Object();
 
@@ -28,7 +34,11 @@ public class parkingLotsTest {
 
     @Test
     void shouldParkInNextParkingLotWhenCurrentOneIsFull() {
-        final ParkingLots parkingLots = new ParkingLots(2, 1);
+        final ParkingLot[] lots = new ParkingLot[2];
+        lots[0] = new ParkingLot(1);
+        lots[1] = new ParkingLot(1);
+
+        final ParkingLots parkingLots = ParkingLots.createParkingLots(lots);
         final Object car1 = new Object();
         final Object car2 = new Object();
 
@@ -42,7 +52,11 @@ public class parkingLotsTest {
         final ParkingLotListener parkingLotListener1 = mock(ParkingLotListener.class);
         final ParkingLotListener parkingLotListener2 = mock(ParkingLotListener.class);
 
-        final ParkingLots parkingLots = new ParkingLots(2, 5);
+        final ParkingLot[] lots = new ParkingLot[2];
+        lots[0] = new ParkingLot(5);
+        lots[1] = new ParkingLot(2);
+
+        final ParkingLots parkingLots = ParkingLots.createParkingLots(lots);
         final Object car = new Object();
 
         parkingLots.addListenerToAllLots(ParkingLotEvent.FULL, parkingLotListener1);

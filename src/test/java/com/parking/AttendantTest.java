@@ -8,7 +8,11 @@ class AttendantTest {
 
     @Test
     void shouldCreateAnAssistantWithSameParkingLots() {
-        final ParkingLots parkingLots = new ParkingLots(2, 10);
+        final ParkingLot[] lots = new ParkingLot[2];
+        lots[0] = new ParkingLot(5);
+        lots[1] = new ParkingLot(2);
+        final ParkingLots parkingLots = ParkingLots.createParkingLots(lots);
+
         final Attendant attendant = new Attendant(parkingLots);
 
         assertEquals(new Assistant(parkingLots), attendant.createAssistant());

@@ -1,41 +1,39 @@
 package com.parking;
 
 public class ParkingLots {
-    private final int numberOfLots;
-    private final ParkingLot[] parkingLots;
+    private final ParkingLot[] lots;
     private int currentLotId = 0;
 
-    public ParkingLots(int numberOfLots, int lotSize) {
-        this.numberOfLots = numberOfLots;
-        this.parkingLots = this.createParkingLots(numberOfLots, lotSize);
+    private ParkingLots(ParkingLot[] lots) {
+        this.lots = lots;
+        this.initializeLots();
     }
 
-    private ParkingLot[] createParkingLots(int numberOfLots, int lotSize) {
-        ParkingLot[] parkingLots = new ParkingLot[numberOfLots];
-
-        for (int i = 0; i < numberOfLots; i++) {
-            parkingLots[i] = new ParkingLot(lotSize);
-            parkingLots[i].addEventListener(ParkingLotEvent.FULL, this::onParkingLotFull);
+    private void initializeLots() {
+        for (ParkingLot lot : this.lots) {
+            lot.addEventListener(ParkingLotEvent.FULL, this::onParkingLotFull);
         }
-
-        return parkingLots;
     }
 
-    private void onParkingLotFull(ParkingEventInfo status) {
+    private void onParkingLotFull(ParkingEventInfo parkingEventInfo) {
         this.currentLotId++;
     }
 
     public ParkingStatus park(Object car) {
-        if (this.currentLotId >= this.numberOfLots) {
+        if (this.currentLotId >= this.lots.length) {
             return ParkingStatus.PARKING_FULL;
         }
 
-        return this.parkingLots[this.currentLotId].park(car);
+        return this.lots[this.currentLotId].park(car);
     }
 
     public void addListenerToAllLots(ParkingLotEvent event, ParkingLotListener parkingLotListener) {
-        for (ParkingLot parkingLot : this.parkingLots) {
+        for (ParkingLot parkingLot : this.lots) {
             parkingLot.addEventListener(event, parkingLotListener);
         }
+    }
+
+    public static ParkingLots createParkingLots(ParkingLot[] lots) {
+        return new ParkingLots(lots);
     }
 }
