@@ -41,6 +41,17 @@ public class ParkingLot {
         return ((this.currentSlotNumber / (double) this.capacity) * 100) == 80;
     }
 
+    private void publishEvent(ParkingLotEvent parkingLotEvent) {
+        final int slotsLeft = this.capacity - this.currentSlotNumber;
+        final ParkingEventInfo parkingEventInfo = new ParkingEventInfo(this.capacity, slotsLeft, parkingLotEvent);
+
+        final List<ParkingLotListener> eventListeners = this.allListeners.get(parkingLotEvent);
+
+        for (final ParkingLotListener eventListener : eventListeners) {
+            eventListener.publishEvent(parkingEventInfo);
+        }
+    }
+
     private void checkEventsAndPublish() {
         if (this.isFull()) {
             publishEvent(ParkingLotEvent.FULL);
@@ -48,16 +59,6 @@ public class ParkingLot {
 
         if (this.isAlmostFull()) {
             publishEvent(ParkingLotEvent.ALMOST_FULL);
-        }
-    }
-
-    private void publishEvent(ParkingLotEvent parkingLotEvent) {
-        final List<ParkingLotListener> eventListeners = this.allListeners.get(parkingLotEvent);
-        final int slotsLeft = this.capacity - this.currentSlotNumber;
-        final ParkingEventInfo parkingEventInfo = new ParkingEventInfo(this.capacity, slotsLeft, parkingLotEvent);
-
-        for (final ParkingLotListener eventListener : eventListeners) {
-            eventListener.publishEvent(parkingEventInfo);
         }
     }
 
