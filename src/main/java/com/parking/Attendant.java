@@ -7,7 +7,7 @@ public class Attendant {
     this.parkingLots = parkingLots;
   }
 
-  public boolean park(Object car) {
+  public ParkingStatus park(Object car) {
     return this.parkingLots.park(car);
   }
 

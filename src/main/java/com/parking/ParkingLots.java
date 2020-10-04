@@ -25,11 +25,11 @@ public class ParkingLots {
     this.currentLotId++;
   }
 
-  public boolean park(Object car) {
+  public ParkingStatus park(Object car) {
     if(this.currentLotId >= this.numberOfLots) {
-      return false;
+      return ParkingStatus.PARKING_FULL;
     }
 
-    return this.parkingLots[this.currentLotId].park(car) == ParkingStatus.DONE;
+    return this.parkingLots[this.currentLotId].park(car);
   }
 }
