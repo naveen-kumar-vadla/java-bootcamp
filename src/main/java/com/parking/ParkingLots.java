@@ -25,7 +25,7 @@ public class ParkingLots {
     this.currentLotId++;
   }
 
-  public boolean park(Car car) {
+  public boolean park(Object car) {
     if(this.currentLotId >= this.numberOfLots) {
       return false;
     }

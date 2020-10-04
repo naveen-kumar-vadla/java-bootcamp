@@ -11,7 +11,7 @@ public class ParkingLotTest {
     @Test
     void shouldParkTheCar() {
         final ParkingLot parkingLot = new ParkingLot(2);
-        final Car car = new Car(12);
+        final Object car = new Object();
 
         assertTrue(parkingLot.park(car));
     }
@@ -19,8 +19,8 @@ public class ParkingLotTest {
     @Test
     void shouldNotParkTheCarWhenLotIsFull() {
         final ParkingLot parkingLot = new ParkingLot(1);
-        final Car car1 = new Car(12);
-        final Car car2 = new Car(13);
+        final Object car1 = new Object();
+        final Object car2 = new Object();
 
         parkingLot.park(car1);
 
@@ -33,7 +33,7 @@ public class ParkingLotTest {
         final ParkingLotListener parkingLotListener2 = mock(ParkingLotListener.class);
 
         final ParkingLot parkingLot = new ParkingLot(2);
-        final Car car = new Car(12);
+        final Object car = new Object();
 
         parkingLot.addEventListener(ParkingLotEvent.FULL, parkingLotListener1);
         parkingLot.addEventListener(ParkingLotEvent.FULL, parkingLotListener2);
@@ -51,10 +51,10 @@ public class ParkingLotTest {
         final ParkingLotListener parkingLotListener2 = mock(ParkingLotListener.class);
 
         final ParkingLot parkingLot = new ParkingLot(5);
-        final Car car1 = new Car(12);
-        final Car car2 = new Car(13);
-        final Car car3 = new Car(14);
-        final Car car4 = new Car(15);
+        final Object car1 = new Object();
+        final Object car2 = new Object();
+        final Object car3 = new Object();
+        final Object car4 = new Object();
 
         parkingLot.addEventListener(ParkingLotEvent.ALMOST_FULL, parkingLotListener1);
         parkingLot.addEventListener(ParkingLotEvent.ALMOST_FULL, parkingLotListener2);

@@ -6,19 +6,19 @@ import java.util.List;
 
 public class ParkingLot {
     private final int size;
-    private final Car[] parkingLot;
+    private final Object[] parkingLot;
     private int currentSlotNumber = 0;
     private final HashMap<ParkingLotEvent, List<ParkingLotListener>> eventListeners = new HashMap<>();
 
     public ParkingLot(int size) {
         this.size = size;
-        this.parkingLot = new Car[size];
+        this.parkingLot = new Object[size];
 
         this.eventListeners.put(ParkingLotEvent.FULL, new ArrayList<>());
         this.eventListeners.put(ParkingLotEvent.ALMOST_FULL, new ArrayList<>());
     }
 
-    public boolean park(Car car) {
+    public boolean park(Object car) {
         if (this.isFull()) {
             return false;
         }
