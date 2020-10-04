@@ -1,5 +1,5 @@
 package com.parking;
 
 public enum ParkingStatus {
-    PARKING_FULL, DONE
+    NOT_DONE, DONE
 }

@@ -21,7 +21,7 @@ public class ParkingLots {
 
     public ParkingStatus park(Object car) {
         if (this.currentLotId >= this.lots.length) {
-            return ParkingStatus.PARKING_FULL;
+            return ParkingStatus.NOT_DONE;
         }
 
         return this.lots[this.currentLotId].park(car);

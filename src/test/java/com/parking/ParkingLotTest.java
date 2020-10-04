@@ -23,7 +23,7 @@ public class ParkingLotTest {
 
         parkingLot.park(car1);
 
-        assertEquals(ParkingStatus.PARKING_FULL, parkingLot.park(car2));
+        assertEquals(ParkingStatus.NOT_DONE, parkingLot.park(car2));
     }
 
     @Test

@@ -22,7 +22,7 @@ public class ParkingLot {
 
     public ParkingStatus park(Object car) {
         if (this.isFull()) {
-            return ParkingStatus.PARKING_FULL;
+            return ParkingStatus.NOT_DONE;
         }
 
         this.parkingLot[this.currentSlotNumber] = car;
