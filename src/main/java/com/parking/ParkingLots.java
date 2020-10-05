@@ -6,13 +6,17 @@ public class ParkingLots {
 
     private ParkingLots(ParkingLot[] lots) {
         this.lots = lots;
-        this.initializeLots();
     }
 
-    private void initializeLots() {
-        for (ParkingLot lot : this.lots) {
-            lot.addEventListener(ParkingLotEvent.FULL, this::onParkingLotFull);
-        }
+    public static ParkingLots createParkingLots(ParkingLot[] lots) {
+        final ParkingLots parkingLots = new ParkingLots(lots);
+        parkingLots.setLotFullListener();
+
+        return parkingLots;
+    }
+
+    private void setLotFullListener() {
+        this.addListenerToAllLots(ParkingLotEvent.FULL, this::onParkingLotFull);
     }
 
     private void onParkingLotFull(ParkingEventInfo parkingEventInfo) {
@@ -31,9 +35,5 @@ public class ParkingLots {
         for (ParkingLot parkingLot : this.lots) {
             parkingLot.addEventListener(event, parkingLotListener);
         }
-    }
-
-    public static ParkingLots createParkingLots(ParkingLot[] lots) {
-        return new ParkingLots(lots);
     }
 }
