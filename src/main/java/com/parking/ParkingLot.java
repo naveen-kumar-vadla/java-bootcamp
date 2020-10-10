@@ -1,58 +1,36 @@
 package com.parking;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class ParkingLot {
-    private int currentSlotNumber = 0;
     private final HashMap<ParkingLotEvent, List<ParkingLotListener>> allListeners = new HashMap<>();
-
     private final int capacity;
-    private final Object[] parkingLot;
+    private final Object[] carSlots;
+    private int currentSlotNumber = 0;
 
     public ParkingLot(int capacity) {
         this.capacity = capacity;
-        this.parkingLot = new Object[capacity];
+        this.carSlots = new Object[capacity];
 
         for (ParkingLotEvent event : ParkingLotEvent.values()) {
             this.allListeners.put(event, new ArrayList<>());
         }
     }
 
-    public ParkingStatus park(Object car) {
+    public int park(Object car) {
         if (this.isFull()) {
-            return ParkingStatus.NOT_DONE;
+            return -1;
         }
 
-        this.parkingLot[this.currentSlotNumber] = car;
-        this.currentSlotNumber++;
+        this.carSlots[this.currentSlotNumber] = car;
+        final int slotID = this.currentSlotNumber++;
 
-        this.checkEventsAndPublish();
+        this.publishOnParkEvents();
 
-        return ParkingStatus.DONE;
+        return slotID;
     }
 
-    private boolean isFull() {
-        return this.currentSlotNumber >= this.capacity;
-    }
-
-    private boolean isAlmostFull() {
-        return ((this.currentSlotNumber / (double) this.capacity) * 100) == 80;
-    }
-
-    private void publishEvent(ParkingLotEvent parkingLotEvent) {
-        final int slotsLeft = this.capacity - this.currentSlotNumber;
-        final ParkingEventInfo parkingEventInfo = new ParkingEventInfo(this.capacity, slotsLeft, parkingLotEvent);
-
-        final List<ParkingLotListener> eventListeners = this.allListeners.get(parkingLotEvent);
-
-        for (final ParkingLotListener eventListener : eventListeners) {
-            eventListener.publishEvent(parkingEventInfo);
-        }
-    }
-
-    private void checkEventsAndPublish() {
+    private void publishOnParkEvents() {
         if (this.isFull()) {
             publishEvent(ParkingLotEvent.FULL);
         }
@@ -62,7 +40,46 @@ public class ParkingLot {
         }
     }
 
+    private boolean isFull() {
+        return this.getFilledSlotsCount() == this.capacity;
+    }
+
+    private boolean isAlmostFull() {
+        return ((this.getFilledSlotsCount() / (double) this.capacity) * 100) == 80;
+    }
+
+    private void publishEvent(ParkingLotEvent parkingLotEvent) {
+        final int slotsLeft = this.capacity - this.getFilledSlotsCount();
+        final ParkingEventInfo parkingEventInfo = new ParkingEventInfo(this.capacity, slotsLeft, parkingLotEvent);
+
+        final List<ParkingLotListener> eventListeners = this.allListeners.get(parkingLotEvent);
+
+        for (final ParkingLotListener eventListener : eventListeners) {
+            eventListener.handleParked(parkingEventInfo);
+        }
+    }
+
     public void addEventListener(ParkingLotEvent parkingLotEvent, ParkingLotListener listener) {
         this.allListeners.get(parkingLotEvent).add(listener);
+    }
+
+    public Object unPark(int slotID) {
+        final Object car = this.carSlots[slotID];
+        this.carSlots[slotID] = null;
+
+        if (this.isAlmostEmpty()) {
+            this.publishEvent(ParkingLotEvent.ALMOST_EMPTY);
+        }
+
+        return car;
+    }
+
+    private boolean isAlmostEmpty() {
+        final int filledSlots = getFilledSlotsCount();
+        return ((filledSlots / (double) this.capacity) * 100) <= 20.0;
+    }
+
+    private int getFilledSlotsCount() {
+        return Arrays.stream(this.carSlots).filter(Objects::nonNull).toArray().length;
     }
 }

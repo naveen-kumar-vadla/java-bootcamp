@@ -5,12 +5,12 @@ import java.util.Objects;
 public class ParkingEventInfo {
     private final int lotCapacity;
     private final int slotsLeft;
-    private final ParkingLotEvent parkingLotEvent;
+    private final ParkingLotEvent parkingEventType;
 
-    public ParkingEventInfo(int lotCapacity, int slotsLeft, ParkingLotEvent parkingLotEvent) {
+    public ParkingEventInfo(int lotCapacity, int slotsLeft, ParkingLotEvent parkingEventType) {
         this.lotCapacity = lotCapacity;
         this.slotsLeft = slotsLeft;
-        this.parkingLotEvent = parkingLotEvent;
+        this.parkingEventType = parkingEventType;
     }
 
     public int getLotCapacity() {
@@ -21,8 +21,8 @@ public class ParkingEventInfo {
         return slotsLeft;
     }
 
-    public ParkingLotEvent getParkingLotEvent() {
-        return parkingLotEvent;
+    public ParkingLotEvent getParkingEventType() {
+        return parkingEventType;
     }
 
     @Override
@@ -38,11 +38,11 @@ public class ParkingEventInfo {
         ParkingEventInfo that = (ParkingEventInfo) obj;
         return this.lotCapacity == that.lotCapacity &&
                 this.slotsLeft == that.slotsLeft &&
-                this.parkingLotEvent == that.parkingLotEvent;
+                this.parkingEventType == that.parkingEventType;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(lotCapacity, slotsLeft, parkingLotEvent);
+        return Objects.hash(lotCapacity, slotsLeft, parkingEventType);
     }
 }

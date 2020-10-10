@@ -12,7 +12,8 @@ public class ParkingLotTest {
         final ParkingLot parkingLot = new ParkingLot(2);
         final Object car = new Object();
 
-        assertEquals(ParkingStatus.DONE, parkingLot.park(car));
+        final int expectedSlotID = 0;
+        assertEquals(expectedSlotID, parkingLot.park(car));
     }
 
     @Test
@@ -23,7 +24,17 @@ public class ParkingLotTest {
 
         parkingLot.park(car1);
 
-        assertEquals(ParkingStatus.NOT_DONE, parkingLot.park(car2));
+        final int expectedSlotID = -1;
+        assertEquals(expectedSlotID, parkingLot.park(car2));
+    }
+
+    @Test
+    void shouldUnParkTheCarForValidID() {
+        final ParkingLot parkingLot = new ParkingLot(2);
+        final Object car = new Object();
+
+        final int slotID = parkingLot.park(car);
+        assertEquals(car, parkingLot.unPark(slotID));
     }
 
     @Test
@@ -42,8 +53,8 @@ public class ParkingLotTest {
 
         final ParkingEventInfo expectedParkingEventInfo = new ParkingEventInfo(2, 0, ParkingLotEvent.FULL);
 
-        verify(parkingLotListener1).publishEvent(expectedParkingEventInfo);
-        verify(parkingLotListener2).publishEvent(expectedParkingEventInfo);
+        verify(parkingLotListener1).handleParked(expectedParkingEventInfo);
+        verify(parkingLotListener2).handleParked(expectedParkingEventInfo);
     }
 
     @Test
@@ -67,7 +78,30 @@ public class ParkingLotTest {
 
         final ParkingEventInfo expectedParkingEventInfo = new ParkingEventInfo(5, 1, ParkingLotEvent.ALMOST_FULL);
 
-        verify(parkingLotListener1).publishEvent(expectedParkingEventInfo);
-        verify(parkingLotListener2).publishEvent(expectedParkingEventInfo);
+        verify(parkingLotListener1).handleParked(expectedParkingEventInfo);
+        verify(parkingLotListener2).handleParked(expectedParkingEventInfo);
+    }
+
+    @Test
+    void shouldNotifyWhenLotIsAlmostEmpty() {
+        final ParkingLotListener parkingLotListener1 = mock(ParkingLotListener.class);
+        final ParkingLotListener parkingLotListener2 = mock(ParkingLotListener.class);
+
+        final ParkingLot parkingLot = new ParkingLot(5);
+        final Object car1 = new Object();
+        final Object car2 = new Object();
+
+        parkingLot.addEventListener(ParkingLotEvent.ALMOST_EMPTY, parkingLotListener1);
+        parkingLot.addEventListener(ParkingLotEvent.ALMOST_EMPTY, parkingLotListener2);
+
+        final int slotID1 = parkingLot.park(car1);
+        parkingLot.park(car2);
+
+        final ParkingEventInfo expectedParkingEventInfo = new ParkingEventInfo(5, 4, ParkingLotEvent.ALMOST_EMPTY);
+
+        parkingLot.unPark(slotID1);
+
+        verify(parkingLotListener1).handleParked(expectedParkingEventInfo);
+        verify(parkingLotListener2).handleParked(expectedParkingEventInfo);
     }
 }

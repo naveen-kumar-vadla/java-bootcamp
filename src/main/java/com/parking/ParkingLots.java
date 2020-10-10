@@ -28,7 +28,7 @@ public class ParkingLots {
             return ParkingStatus.NOT_DONE;
         }
 
-        return this.lots[this.currentLotId].park(car);
+        return this.lots[this.currentLotId].park(car) == -1 ? ParkingStatus.NOT_DONE : ParkingStatus.DONE;
     }
 
     public void addListenerToAllLots(ParkingLotEvent event, ParkingLotListener parkingLotListener) {

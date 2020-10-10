@@ -1,5 +1,5 @@
 package com.parking;
 
 public enum ParkingLotEvent {
-    ALMOST_FULL, FULL
+    ALMOST_EMPTY, ALMOST_FULL, FULL
 }
